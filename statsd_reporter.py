@@ -1,9 +1,10 @@
 from bzt.engine import Reporter, Singletone
 from bzt.modules.aggregator import DataPoint, KPISet, AggregatorListener, ResultsProvider
-import statsd, os, json
+import statsd, os
 
 class StatsdReporter(Reporter, AggregatorListener, Singletone):
     def __init__(self):
+        super(StatsdReporter, self).__init__()
         self.serialiser = DataSerialiser()
         self.data_buffer = []
 
