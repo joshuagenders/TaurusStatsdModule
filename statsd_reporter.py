@@ -36,9 +36,9 @@ class DataSerialiser():
     def serialise(self, data):
         cur = data[DataPoint.CURRENT].get('')
         self.client.gauge('concurrency', cur[KPISet.CONCURRENCY])
-        self.client.gauge('errors', cur[KPISet.FAILURES])
-        self.client.gauge('success', cur[KPISet.SUCCESSES])
-        self.client.gauge('total', cur[KPISet.SAMPLE_COUNT])
+        self.client.incr('errors', cur[KPISet.FAILURES])
+        self.client.incr('success', cur[KPISet.SUCCESSES])
+        self.client.incr('total', cur[KPISet.SAMPLE_COUNT])
         self.client.timer('response', cur[KPISet.AVG_RESP_TIME])
         self.client.timer('latency', cur[KPISet.AVG_LATENCY])
         self.client.timer('connect', cur[KPISet.AVG_CONN_TIME])
