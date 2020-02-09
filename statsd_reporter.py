@@ -28,9 +28,10 @@ class StatsdReporter(Reporter, AggregatorListener, Singletone):
 
 class DataSerialiser():
     def __init__(self):
-        host = os.getenv("STATSD_HOST", "localhost")
+        host = os.getenv("STATSD_HOST", "127.0.0.1")
         port = int(os.getenv("STATSD_PORT", "8125"))
-        prefix = os.getenv("STATSD_PREFIX", "taurus.unset")
+        prefix = os.getenv("STATSD_PREFIX", "taurus.test")
+        print("StatsdReporter: %s:%s %s" % (host, port, prefix))
         self.client = statsd.StatsClient(host, port, prefix)
 
     def serialise(self, data):
@@ -39,13 +40,13 @@ class DataSerialiser():
         self.client.incr('errors', cur[KPISet.FAILURES])
         self.client.incr('success', cur[KPISet.SUCCESSES])
         self.client.incr('total', cur[KPISet.SAMPLE_COUNT])
-        self.client.timer('response', cur[KPISet.AVG_RESP_TIME])
-        self.client.timer('latency', cur[KPISet.AVG_LATENCY])
-        self.client.timer('connect', cur[KPISet.AVG_CONN_TIME])
-        self.client.timer('min', cur[KPISet.PERCENTILES]['0.0'])
-        self.client.timer('p50', cur[KPISet.PERCENTILES]['50.0'])
-        self.client.timer('p90', cur[KPISet.PERCENTILES]['90.0'])
-        self.client.timer('p95', cur[KPISet.PERCENTILES]['95.0'])
-        self.client.timer('p99', cur[KPISet.PERCENTILES]['99.0'])
-        self.client.timer('p999', cur[KPISet.PERCENTILES]['99.9'])
-        self.client.timer('max', cur[KPISet.PERCENTILES]['100.0'])
+        self.client.timing('response', cur[KPISet.AVG_RESP_TIME])
+        self.client.timing('latency', cur[KPISet.AVG_LATENCY])
+        self.client.timing('connect', cur[KPISet.AVG_CONN_TIME])
+        self.client.timing('min', cur[KPISet.PERCENTILES]['0.0'])
+        self.client.timing('p50', cur[KPISet.PERCENTILES]['50.0'])
+        self.client.timing('p90', cur[KPISet.PERCENTILES]['90.0'])
+        self.client.timing('p95', cur[KPISet.PERCENTILES]['95.0'])
+        self.client.timing('p99', cur[KPISet.PERCENTILES]['99.0'])
+        self.client.timing('p999', cur[KPISet.PERCENTILES]['99.9'])
+        self.client.timing('max', cur[KPISet.PERCENTILES]['100.0'])
