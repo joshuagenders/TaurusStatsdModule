@@ -1,4 +1,4 @@
-FROM blazemeter/taurus:latest
+FROM blazemeter/taurus:1.13.9
 
 WORKDIR /bzt-configs
 
