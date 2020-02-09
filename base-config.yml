@@ -1,14 +1,35 @@
 ---
-    modules:
-      statsdreporter:
-        path: /usr/local/lib/python2.7/dist-packages/bzt/modules/statsd_reporter.py
-        class: bzt.modules.statsd_reporter.StatsdReporter
+  modules:
+    statsdreporter:
+      path: /usr/local/lib/python2.7/dist-packages/bzt/modules/statsd_reporter.py
+      class: bzt.modules.statsd_reporter.StatsdReporter
 
-      console:
-        disable: true
+    console:
+      disable: true
 
-    reporting:
-      - statsdreporter
+    consolidator:
+      buffer-scale-choice: 0.5  # choose middle value from following percentiles list (95.0)
+      buffer-multiplier: 2  # make buffer two times bigger than need to receive 95% samples
+      min-buffer-len: 2s
+      max-buffer-len: 2h
 
-    settings:
-      verbose: false
+      percentiles:
+        - 0.0
+        - 50.0
+        - 90.0
+        - 95.0
+        - 99.0
+        - 99.9
+        - 100.0
+
+  reporting:
+    - statsdreporter
+    - module: final-stats
+      summary: false
+      percentiles: false
+      summary-labels: false
+      failed-labels: false
+      test-duration: false
+
+  settings:
+    verbose: false
