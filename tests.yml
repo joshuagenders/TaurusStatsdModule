@@ -1,0 +1,14 @@
+---
+  execution:
+    - hold-for: 10s
+      concurrency: 1
+      throughput: 1
+      scenario: simple
+      
+  scenarios:
+    simple:
+      requests:
+        - http://en.wikipedia.org/
+
+  included-configs:
+    - /bzt-configs/base-config.yml 

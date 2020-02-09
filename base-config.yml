@@ -1,0 +1,11 @@
+---
+    modules:
+      statsd:
+        path: /usr/local/lib/python2.7/dist-packages/bzt/modules/statsd_reporter.py
+        class: bzt.modules.statsd_reporter.StatsdReporter
+    
+    reporting:
+      - statsd
+
+    settings:
+      verbose: true
